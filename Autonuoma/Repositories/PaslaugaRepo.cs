@@ -21,7 +21,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		{
 			var paslaugos = new List<Paslauga>();
 
-			string query = $@"SELECT * FROM `{Config.TblPrefix}paslaugos` ORDER BY id ASC";
+			string query = $@"SELECT * FROM `paslaugos` ORDER BY id ASC";
 			var dt = Sql.Query(query);
 
 			foreach( DataRow item in dt )
@@ -46,7 +46,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					a.id,
 					a.pavadinimas,
 					a.aprasymas
-				FROM `{Config.TblPrefix}paslaugos` a
+				FROM `paslaugos` a
 				WHERE a.id=?id";
 
 			var dt = 
@@ -67,7 +67,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static void Update(Paslauga paslauga)
 		{
 			var query = 
-				$@"UPDATE `{Config.TblPrefix}paslaugos` p 
+				$@"UPDATE `paslaugos` p 
 				SET p.pavadinimas=?pavadinimas, p.aprasymas=?aprasymas 
 				WHERE p.id=?id";
 
@@ -81,7 +81,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static int Insert(Paslauga paslauga)
 		{
 			string query = 
-				$@"INSERT INTO `{Config.TblPrefix}paslaugos`
+				$@"INSERT INTO `paslaugos`
 				(pavadinimas,aprasymas)
 				VALUES
 				(?pavadinimas,?aprasymas)";
@@ -97,7 +97,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 		public static void Delete(int id)
 		{
-			var query = $@"DELETE FROM `{Config.TblPrefix}paslaugos` WHERE id=?id";
+			var query = $@"DELETE FROM `paslaugos` WHERE id=?id";
 			Sql.Delete(query, args => {
 				args.Add("?id", MySqlDbType.Int32).Value = id;
 			});

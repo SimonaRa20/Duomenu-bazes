@@ -20,7 +20,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		{
 			var klientai = new List<Klientas>();
 
-			var query = $@"SELECT * FROM `{Config.TblPrefix}klientai` ORDER BY asmens_kodas ASC";
+			var query = $@"SELECT * FROM `klientai` ORDER BY asmens_kodas ASC";
 
 			var dt = Sql.Query(query);
 
@@ -42,7 +42,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 		public static Klientas Find(string asmkodas)
 		{
-			var query = $@"SELECT * FROM `{Config.TblPrefix}klientai` WHERE asmens_kodas=?asmkodas";
+			var query = $@"SELECT * FROM `klientai` WHERE asmens_kodas=?asmkodas";
 
 			var dt =
 				Sql.Query(query, args => {
@@ -72,7 +72,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static void Insert(Klientas klientas)
 		{
 			var query =
-				$@"INSERT INTO `{Config.TblPrefix}klientai`
+				$@"INSERT INTO `klientai`
 				(
 					asmens_kodas,
 					vardas,
@@ -103,7 +103,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static void Update(Klientas klientas)
 		{
 			var query =
-				$@"UPDATE `{Config.TblPrefix}klientai`
+				$@"UPDATE `klientai`
 				SET
 					vardas=?vardas,
 					pavarde=?pavarde,
@@ -125,7 +125,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 		public static void Delete(string id)
 		{
-			var query = $@"DELETE FROM `{Config.TblPrefix}klientai` WHERE asmens_kodas=?id";
+			var query = $@"DELETE FROM `klientai` WHERE asmens_kodas=?id";
 			Sql.Delete(query, args => {
 				args.Add("?id", MySqlDbType.VarChar).Value = id;
 			});
