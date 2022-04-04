@@ -24,8 +24,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					md.pavadinimas,
 					mark.pavadinimas AS marke
 				FROM
-					`{Config.TblPrefix}modeliai` md
-					LEFT JOIN `{Config.TblPrefix}markes` mark ON mark.id=md.fk_marke
+					`modeliai` md
+					LEFT JOIN `markes` mark ON mark.id=md.fk_marke
 				ORDER BY mark.pavadinimas ASC, md.id ASC";
 
 			var dt = Sql.Query(query);
@@ -47,7 +47,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		{
 			var result = new List<Modelis>();
 
-			var query = $@"SELECT * FROM `{Config.TblPrefix}modeliai` WHERE fk_marke=?markeId ORDER BY id ASC";
+			var query = $@"SELECT * FROM `modeliai` WHERE fk_marke=?markeId ORDER BY id ASC";
 
 			var dt =
 				Sql.Query(query, args => {
@@ -71,7 +71,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		{
 			var mevm = new ModelisEditVM();
 
-			var query = $@"SELECT * FROM `{Config.TblPrefix}modeliai` WHERE id=?id";
+			var query = $@"SELECT * FROM `modeliai` WHERE id=?id";
 
 			var dt =
 				Sql.Query(query, args => {
@@ -98,8 +98,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					md.pavadinimas,
 					mark.pavadinimas AS marke
 				FROM
-					`{Config.TblPrefix}modeliai` md
-					LEFT JOIN `{Config.TblPrefix}markes` mark ON mark.id=md.fk_marke
+					`modeliai` md
+					LEFT JOIN `markes` mark ON mark.id=md.fk_marke
 				WHERE
 					md.id = ?id";
 
@@ -121,7 +121,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static void Update(ModelisEditVM modelisEvm)
 		{
 			var query =
-				$@"UPDATE `{Config.TblPrefix}modeliai`
+				$@"UPDATE `modeliai`
 				SET
 					pavadinimas=?pavadinimas,
 					fk_marke=?marke
@@ -138,7 +138,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static void Insert(ModelisEditVM modelisEvm)
 		{
 			var query =
-				$@"INSERT INTO `{Config.TblPrefix}modeliai`
+				$@"INSERT INTO `modeliai`
 				(
 					pavadinimas,
 					fk_marke
@@ -156,7 +156,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 		public static void Delete(int id)
 		{
-			var query = $@"DELETE FROM `{Config.TblPrefix}modeliai` WHERE id=?id";
+			var query = $@"DELETE FROM `modeliai` WHERE id=?id";
 			Sql.Delete(query, args => {
 				args.Add("?id", MySqlDbType.Int32).Value = id;
 			});

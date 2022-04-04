@@ -29,10 +29,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					m.pavadinimas AS modelis,
 					mm.pavadinimas AS marke
 				FROM
-					{Config.TblPrefix}automobiliai a
-					LEFT JOIN `{Config.TblPrefix}auto_busenos` b ON b.id = a.busena
-					LEFT JOIN `{Config.TblPrefix}modeliai` m ON m.id = a.fk_modelis
-					LEFT JOIN `{Config.TblPrefix}markes` mm ON mm.id = m.fk_marke
+					automobiliai a
+					LEFT JOIN `auto_busenos` b ON b.id = a.busena
+					LEFT JOIN `modeliai` m ON m.id = a.fk_modelis
+					LEFT JOIN `markes` mm ON mm.id = m.fk_marke
 				ORDER BY a.id ASC";
 
 			var dt = Sql.Query(query);
@@ -56,7 +56,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		{
 			var autoEvm = new AutoEditVM();
 
-			var query =  $@"SELECT * FROM `{Config.TblPrefix}automobiliai` WHERE id=?id";
+			var query =  $@"SELECT * FROM `automobiliai` WHERE id=?id";
 
 			var dt =
 				Sql.Query(query, args => {
@@ -89,7 +89,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static void Insert(AutoEditVM autoEvm)
 		{
 			var query = 
-				$@"INSERT INTO `{Config.TblPrefix}automobiliai`
+				$@"INSERT INTO `automobiliai`
 				(
 					`valstybinis_nr`,
 					`pagaminimo_data`,
@@ -147,7 +147,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		public static void Update(AutoEditVM autoEvm)
 		{
 			var query =
-				$@"UPDATE `{Config.TblPrefix}automobiliai`
+				$@"UPDATE `automobiliai`
 				SET
 					`valstybinis_nr` = ?vlst_nr,
 					`pagaminimo_data` = ?pag_data,
@@ -190,7 +190,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 		public static void Delete(int id)
 		{
-			var query = $@"DELETE FROM `{Config.TblPrefix}automobiliai` WHERE id=?id";
+			var query = $@"DELETE FROM `automobiliai` WHERE id=?id";
 			Sql.Delete(query, args => {
 				args.Add("?id", MySqlDbType.Int32).Value = id;
 			});

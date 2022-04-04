@@ -20,7 +20,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 			var query =
 				$@"SELECT *
-				FROM `{Config.TblPrefix}uzsakytos_paslaugos`
+				FROM `uzsakytos_paslaugos`
 				WHERE fk_sutartis = ?sutartisId
 				ORDER BY fk_paslauga ASC, fk_kaina_galioja_nuo ASC";
 
@@ -70,7 +70,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
 			//
 			var query =
-				$@"INSERT INTO `{Config.TblPrefix}uzsakytos_paslaugos`
+				$@"INSERT INTO `uzsakytos_paslaugos`
 					(
 						fk_sutartis,
 						fk_kaina_galioja_nuo,
@@ -99,7 +99,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		{
 			var query =
 				$@"DELETE FROM a
-				USING `{Config.TblPrefix}uzsakytos_paslaugos` as a
+				USING `uzsakytos_paslaugos` as a
 				WHERE a.fk_sutartis=?fkid";
 
 			Sql.Delete(query, args => {

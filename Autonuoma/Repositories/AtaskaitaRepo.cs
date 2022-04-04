@@ -24,9 +24,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					SUM(up.kiekis) AS kiekis,
 					SUM(up.kiekis*up.kaina) AS suma
 				FROM
-					`{Config.TblPrefix}paslaugos` pasl,
-					`{Config.TblPrefix}uzsakytos_paslaugos` up,
-					`{Config.TblPrefix}sutartys` sut
+					`paslaugos` pasl,
+					`uzsakytos_paslaugos` up,
+					`sutartys` sut
 				WHERE
 					pasl.id = up.fk_paslauga
 					AND up.fk_sutartis = sut.nr
@@ -66,9 +66,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					SUM(up.kiekis) AS kiekis,
 					SUM(up.kiekis*up.kaina) AS suma
 				FROM
-					`{Config.TblPrefix}paslaugos` pasl,
-					`{Config.TblPrefix}uzsakytos_paslaugos` up,
-					`{Config.TblPrefix}sutartys` sut
+					`paslaugos` pasl,
+					`uzsakytos_paslaugos` up,
+					`sutartys` sut
 				WHERE
 					pasl.id = up.fk_paslauga
 					AND up.fk_sutartis = sut.nr
@@ -106,15 +106,15 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					bs1.bendra_suma,
 					bs2.bendra_suma bendra_suma_paslaugu
 				FROM
-					`{Config.TblPrefix}sutartys` sut
-					INNER JOIN `{Config.TblPrefix}klientai` kln ON kln.asmens_kodas = sut.fk_klientas
-					LEFT JOIN `{Config.TblPrefix}uzsakytos_paslaugos` up ON up.fk_sutartis = sut.nr
+					`sutartys` sut
+					INNER JOIN `klientai` kln ON kln.asmens_kodas = sut.fk_klientas
+					LEFT JOIN `uzsakytos_paslaugos` up ON up.fk_sutartis = sut.nr
 					LEFT JOIN
 						(
 							SELECT
 								kln1.asmens_kodas,
 								sum(sut1.kaina) as bendra_suma
-							FROM `{Config.TblPrefix}sutartys` sut1, `{Config.TblPrefix}klientai` kln1
+							FROM `sutartys` sut1, `klientai` kln1
 							WHERE
 								kln1.asmens_kodas=sut1.fk_klientas
 								AND sut1.sutarties_data >= IFNULL(?nuo, sut1.sutarties_data)
@@ -128,9 +128,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 								kln2.asmens_kodas,
 								IFNULL(SUM(up2.kiekis*up2.kaina), 0) as bendra_suma
 							FROM
-								`{Config.TblPrefix}sutartys` sut2
-								INNER JOIN `{Config.TblPrefix}klientai` kln2 ON kln2.asmens_kodas = sut2.fk_klientas
-								LEFT JOIN `{Config.TblPrefix}uzsakytos_paslaugos` up2 ON up2.fk_sutartis = sut2.nr
+								`sutartys` sut2
+								INNER JOIN `klientai` kln2 ON kln2.asmens_kodas = sut2.fk_klientas
+								LEFT JOIN `uzsakytos_paslaugos` up2 ON up2.fk_sutartis = sut2.nr
 							WHERE
 								sut2.sutarties_data >= IFNULL(?nuo, sut2.sutarties_data)
 								AND sut2.sutarties_data <= IFNULL(?iki, sut2.sutarties_data)
@@ -185,7 +185,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 						'negražinta',
 						sut.faktine_grazinimo_data_laikas
 					) as grazinimo_data
-				FROM `{Config.TblPrefix}sutartys` sut, `{Config.TblPrefix}klientai` kln
+				FROM `sutartys` sut, `klientai` kln
 				WHERE
 					kln.asmens_kodas = sut.fk_klientas
 					AND (

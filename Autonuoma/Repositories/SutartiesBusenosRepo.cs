@@ -20,7 +20,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 		{
 			var busenos = new List<SutartiesBusena>();
 			
-			var query = $@"SELECT * FROM `{Config.TblPrefix}sutarties_busenos` ORDER BY id ASC";
+			var query = $@"SELECT * FROM `sutarties_busenos` ORDER BY id ASC";
 			var dt = Sql.Query(query);
 
 			foreach( DataRow item in dt )
