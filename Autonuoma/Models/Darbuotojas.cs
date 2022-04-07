@@ -15,17 +15,14 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Models
         public string Tabelis { get; set; }
 
         [DisplayName("Vardas")]
-        [MaxLength(20)]
         [Required]
         public string Vardas { get; set; }
 
         [DisplayName("Pavardė")]
-        [MaxLength(20)]
         [Required]
         public string Pavarde { get; set; }
 
         [DisplayName("Telefonas")]
-        [MaxLength(20)]
         [Required]
         public string Telefonas { get; set; }
     }

@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Autonuoma",
+    "\\Autonuoma\\Controllers",
+    "\\Autonuoma\\Models",
+    "\\Autonuoma\\Repositories",
+    "\\Autonuoma\\Views"
   ],
-  "SelectedNode": "\\autonuoma.sln",
+  "SelectedNode": "\\Autonuoma\\Sql.cs",
   "PreviewInSolutionExplorer": false
 }

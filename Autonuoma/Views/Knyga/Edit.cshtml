@@ -1,0 +1,91 @@
+﻿@model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.KnygaEditVM
+@{
+	ViewData["title"] = "Knygos redagavimas";
+}
+
+<div class="main-content-header container-fluid d-flex d-row justify-content-between align-items-center">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a href="@Url.Action("Index")" class="link-primary"><i class="fa-solid fa-angles-left"></i> Atgal į sarašą</a>
+	</span>
+</div>
+
+<div class="container-fluid d-flex justify-content-center">
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+	
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	
+	@* add hidden form fields for non-visible properties, otherwise they will get lost in code that handles button presses *@
+	@Html.HiddenFor(m => m.Knyga.ISBN)
+
+	<fieldset class="border rounded shadow p-2">
+		<div class="form-group">
+			@Html.LabelFor(m => m.Knyga.ISBN, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Knyga.ISBN, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(m => m.Knyga.ISBN, "", new { @class = "text-danger" })
+		</div>
+
+			<div class="form-group">
+			@Html.LabelFor(m => m.Knyga.Puslapiu_skaicius, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Knyga.Puslapiu_skaicius, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(m => m.Knyga.Puslapiu_skaicius, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Knyga.LeidimoMetai, new { @class = "control-label" })
+			@Html.TextBoxFor(m => m.Knyga.LeidimoMetai, "{0:yyyy-MM-dd}", new { @class = "form-control date-picker"})
+			@Html.ValidationMessageFor(m => m.Knyga.LeidimoMetai, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Knyga.Kalba, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Knyga.Kalba, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(m => m.Knyga.Kalba, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Knyga.Kiekis, new { @class = "control-label" })
+			@Html.DropDownListFor(m => m.Knyga.Kiekis, Model.Lists.Busenos, "--------------", new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Knyga.Kiekis, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Knyga.Busena, new { @class = "control-label" })
+			@Html.DropDownListFor(m => m.Knyga.Busena, Model.Lists.Busenos, "--------------", new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Knyga.Busena, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Knyga.FkZanras, new { @class = "control-label" })
+			@Html.DropDownListFor(m => m.Knyga.FkZanras, Model.Lists.Zanrai, "--------------", new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Knyga.FkZanras, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Knyga.FkAutorius, new { @class = "control-label" })
+			@Html.DropDownListFor(m => m.Knyga.FkAutorius, Model.Lists.Autoriai, "--------------", new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Knyga.FkAutorius, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Knyga.FkLeidykla, new { @class = "control-label" })
+			@Html.DropDownListFor(m => m.Knyga.FkLeidykla, Model.Lists.Leidyklos, "--------------", new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Knyga.FkLeidykla, "", new { @class = "text-danger" })
+		</div>
+
+	</fieldset>
+
+	<div class="container-fluid d-flex d-row justify-content-end">
+		<button name="save" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Išsaugoti</button>
+	</div>
+}
+</div>
+
+<div class="main-content-footer container-fluid d-flex d-row justify-content-between align-items-center">
+	<span class="title"></span>
+	<span class="actions">
+		<a href="@Url.Action("Index")" class="link-primary"><i class="fa-solid fa-angles-left"></i> Atgal į sarašą</a>
+	</span>
+</div>
