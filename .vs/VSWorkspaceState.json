@@ -5,8 +5,9 @@
     "\\Autonuoma\\Controllers",
     "\\Autonuoma\\Models",
     "\\Autonuoma\\Repositories",
-    "\\Autonuoma\\Views"
+    "\\Autonuoma\\Views",
+    "\\Autonuoma\\Views\\Knyga"
   ],
-  "SelectedNode": "\\Autonuoma\\Sql.cs",
+  "SelectedNode": "\\Autonuoma\\Views\\Knyga\\Create.cshtml",
   "PreviewInSolutionExplorer": false
 }

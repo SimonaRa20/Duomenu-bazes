@@ -20,6 +20,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
                 {
                     Id = Convert.ToInt32(item["id"]),
                     Pavadinimas = Convert.ToString(item["pavadinimas"]),
+                    Adresas = Convert.ToString(item["adresas"])
                 });
             }
 
@@ -41,6 +42,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
             {
                 leidykla.Id = Convert.ToInt32(item["id"]);
                 leidykla.Pavadinimas = Convert.ToString(item["pavadinimas"]);
+                leidykla.Adresas = Convert.ToString(item["adresas"]);
             }
 
             return leidykla;
@@ -51,29 +53,35 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
             var query =
                 $@"UPDATE `leidyklos` 
 				SET 
-					pavadinimas=?pavadinimas 
+					pavadinimas=?pavadinimas
+                    adresas=?adresas
 				WHERE 
 					id=?id";
 
             Sql.Update(query, args =>
             {
                 args.Add("?pavadinimas", MySqlDbType.VarChar).Value = leidykla.Pavadinimas;
+                args.Add("?adresas", MySqlDbType.VarChar).Value = leidykla.Adresas;
                 args.Add("?id", MySqlDbType.VarChar).Value = leidykla.Id;
             });
         }
 
         public static void Insert(Leidykla leidykla)
         {
-            var query = $@"INSERT INTO `leidyklos` ( pavadinimas ) VALUES ( ?pavadinimas )";
+            var query = $@"INSERT INTO `leidyklos` ( id, pavadinimas, adresas ) VALUES ( ?id, ?pavadinimas, ?adresas )";
             Sql.Insert(query, args =>
             {
                 args.Add("?pavadinimas", MySqlDbType.VarChar).Value = leidykla.Pavadinimas;
+                args.Add("?adresas", MySqlDbType.VarChar).Value = leidykla.Adresas;
+                args.Add("?id", MySqlDbType.VarChar).Value = leidykla.Id;
+
+
             });
         }
 
         public static void Delete(int id)
         {
-            var query = $@"DELETE FROM `markes` where id=?id";
+            var query = $@"DELETE FROM `leidyklos` where id=?id";
             Sql.Delete(query, args =>
             {
                 args.Add("?id", MySqlDbType.Int32).Value = id;

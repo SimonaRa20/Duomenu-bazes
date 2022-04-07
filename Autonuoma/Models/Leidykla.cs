@@ -11,5 +11,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Models
         [DisplayName("Pavadinimas")]
         [Required]
         public string Pavadinimas { get; set; }
+
+        [DisplayName("Adresas")]
+        [Required]
+        public string Adresas { get; set; }
     }
 }

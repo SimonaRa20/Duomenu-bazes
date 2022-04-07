@@ -8,71 +8,67 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
     /// <summary>
     /// Database operations related to 'Automobilis' entity.
     /// </summary>
-    public class KnygosRepo
+    public class DarbuotojaiRepo
     {
-        public static List<KnygaListVM> List()
+        public static List<DarbuotojasListVM> List()
         {
-            var knygos = new List<KnygaListVM>();
+            var darbuotojai = new List<DarbuotojasListVM>();
 
             var query =
                 $@"SELECT
-					a.ISBN,
-					a.pavadinimas,
-                    CONCAT(b.vardas, ' ', b.pavarde) AS autorius,
-					m.pavadinimas AS leidykla,
-					mm.pavadinimas AS zanras
+					a.tabelio_nr,
+                    CONCAT(a.vardas, ' ', a.pavarde) AS darbuotojas,
+                    a.telefonas,
+                    m.pavadinimas AS pareigos
 				FROM
-					knygos a
-					LEFT JOIN `autoriai` b ON b.id = a.fk_autoriusid_autorius
-					LEFT JOIN `leidyklos` m ON m.id = a.fk_leidyklaid_leidykla
-					LEFT JOIN `zanrai` mm ON mm.id = a.fk_zanrasid_zanras
-				ORDER BY a.ISBN ASC";
+					darbuotojai a
+					LEFT JOIN `pareigos` b ON b.id = a.fk_pareigosid_pareigos
+				ORDER BY a.tabelio_nr ASC";
 
             var dt = Sql.Query(query);
 
             foreach (DataRow item in dt)
             {
-                knygos.Add(new KnygaListVM
+                darbuotojai.Add(new DarbuotojasListVM
                 {
-                    ISBN = Convert.ToInt32(item["ISBN"]),
-                    Pavadinimas = Convert.ToString(item["pavadinimas"]),
-                    Autorius = Convert.ToString(item["autorius"]),
-                    Leidykla = Convert.ToString(item["leidykla"]),
-                    Zanras = Convert.ToString(item["zanras"])
+                    Tabelio_nr = Convert.ToInt32(item["tabelio_nr"]),
+                    Vardas = Convert.ToString(item["vardas"]),
+                    Pavardė = Convert.ToString(item["pavarde"]),
+                    Telefonas = Convert.ToString(item["telefonas"]),
+                    Pareigos = Convert.ToString(item["pareigos"])
                 });
             }
 
-            return knygos;
+            return darbuotojai;
         }
 
-        public static KnygaEditVM Find(int id)
+        public static DarbuotojasEditVM Find(int id)
         {
-            var knygaEvm = new KnygaEditVM();
+            var darbuotojasEvm = new DarbuotojasEditVM();
 
-            var query = $@"SELECT * FROM `knygos` WHERE isbn=?isbn";
+            var query = $@"SELECT * FROM `darbuotojai` WHERE tabelio_nr=?tabelio_nr";
 
             var dt =
                 Sql.Query(query, args =>
                 {
-                    args.Add("?isbn", MySqlDbType.Int32).Value = id;
+                    args.Add("?tabelio_nr", MySqlDbType.Int32).Value = id;
                 });
 
             foreach (DataRow item in dt)
             {
-                knygaEvm.Knyga.ISBN = Convert.ToInt32(item["ISBN"]);
-                knygaEvm.Knyga.Pavadinimas = Convert.ToString(item["pavadinimas"]);
-                knygaEvm.Knyga.Puslapiu_skaicius = Convert.ToInt32(item["puslapiu_skaicius"]);
-                knygaEvm.Knyga.LeidimoMetai = Convert.ToDateTime(item["leidimo_metai"]);
-                knygaEvm.Knyga.Kalba = Convert.ToString(item["kalba"]);
-                knygaEvm.Knyga.Kiekis = Convert.ToInt32(item["kiekis"]);
-                knygaEvm.Knyga.Busena = Convert.ToInt32(item["busena"]);
+                darbuotojasEvm.Darbuotojas.Tabelio_nr = Convert.ToInt32(item["tabelio_nr"]);
+                darbuotojasEvm.Darbuotojas.Vardas = Convert.ToString(item["vardas"]);
+                darbuotojasEvm.Darbuotojas.Pavarde = Convert.ToString(item["pavarde"]);
+                darbuotojasEvm.Darbuotojas.Telefonas = Convert.ToString(item["telefonas"]);
+                darbuotojasEvm.Darbuotojas.Val_atlyginimas = Convert.ToInt32(item["val_atlyginimas"]);
+                darbuotojasEvm.Darbuotojas.Atlyginimas = Convert.ToInt32(item["atlyginimas"]);
+                darbuotojasEvm.Darbuotojas.Banko_saskaita = Convert.ToString(item["banko_saskaita"]);
 
-                knygaEvm.Knyga.FkZanras = Convert.ToInt32(item["fk_zanrasid_zanras"]);
-                knygaEvm.Knyga.FkAutorius = Convert.ToInt32(item["fk_autoriusid_autorius"]);
-                knygaEvm.Knyga.FkLeidykla = Convert.ToInt32(item["fk_leidyklaid_leidykla"]);
+                darbuotojasEvm.Darbuotojas.FkBiblioteka = Convert.ToInt32(item["fk_bibliotekaid_biblioteka"]);
+                darbuotojasEvm.Darbuotojas.FkPareigos = Convert.ToInt32(item["fk_pareigosid_pareigos"]);
             }
 
-            return knygaEvm;
+            return darbuotojasEvm;
         }
 
         public static void Insert(KnygaEditVM knygaEvm)
@@ -87,9 +83,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					`kalba`,
 					`kiekis`,
 					`busena`,
-					`fk_zanrasid_zanras`,
-					`fk_autoriusid_autorius`,
-					`fk_leidyklaid_leidykla`
+					`zanras`,
+					`autorius`,
+					`leidykla`
 				)
 				VALUES (
 					?isbn,
@@ -122,7 +118,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
         public static void Update(KnygaEditVM knygaEvm)
         {
             var query =
-                $@"UPDATE `knygos`
+                $@"UPDATE `knyga`
 				SET
 					`ISBN` = ?isbn,
 					`pavadinimas` = ?pav,
@@ -131,9 +127,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					`kalba` = ?kalba,
 					`kiekis` = ?kiek,
 					`busena` = ?bus,
-					`fk_zanrasid_zanras` = ?zan,
-					`fk_autoriusid_autorius` = ?autor,
-					`fk_leidyklaid_leidykla` = ?leid
+					`zanras` = ?zan,
+					`autorius` = ?autor,
+					`leidykla` = ?leid
 				WHERE
 					ISBN=?isbn";
 

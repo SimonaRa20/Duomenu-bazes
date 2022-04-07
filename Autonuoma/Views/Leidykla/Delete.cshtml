@@ -23,7 +23,10 @@
 			<dd>@Html.DisplayFor(m => m.Id)</dd>
 
 			<dt>@Html.DisplayNameFor(m => m.Pavadinimas)</dt>
-			<dd>@Html.DisplayFor(m => m.Pavadinimas)</dd>			
+			<dd>@Html.DisplayFor(m => m.Pavadinimas)</dd>	
+			
+			<dt>@Html.DisplayNameFor(m => m.Adresas)</dt>
+			<dd>@Html.DisplayFor(m => m.Adresas)</dd>
 		</dl>
 
 		@if( ViewData["deletionNotPermitted"] != null )

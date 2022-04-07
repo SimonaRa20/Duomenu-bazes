@@ -68,11 +68,12 @@ namespace Autonuoma.Repositories
 
         public static void Insert(Autorius autorius)
         {
-            var query = $@"INSERT INTO `autoriai` ( vardas, pavarde ) VALUES ( ?vardas, ?pavarde )";
+            var query = $@"INSERT INTO `autoriai` ( id, vardas, pavarde ) VALUES ( ?id, ?vardas, ?pavarde )";
             Sql.Insert(query, args =>
             {
                 args.Add("?vardas", MySqlDbType.VarChar).Value = autorius.Vardas;
                 args.Add("?pavarde", MySqlDbType.VarChar).Value = autorius.Pavarde;
+                args.Add("?id", MySqlDbType.VarChar).Value = autorius.Id;
             });
         }
 
