@@ -15,7 +15,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
         public string Vardas { get; set; }
 
         [DisplayName("Pavardė")]
-        public string Pavardė { get; set; }
+        public string Pavarde { get; set; }
 
         [DisplayName("Telefonas")]
         public string Telefonas { get; set; }

@@ -1,0 +1,185 @@
+﻿@model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.DarbuotojasEditVM
+
+@{
+	ViewData["title"] = "Darbuotojo sukūrimas";
+}
+
+<div class="main-content-header container-fluid d-flex d-row justify-content-between align-items-center">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a href="@Url.Action("Index")" class="link-primary"><i class="fa-solid fa-angles-left"></i> Atgal į sarašą</a>
+	</span>
+</div>
+
+<div class="container-fluid d-flex justify-content-center">
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+	
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+	<fieldset class="border rounded shadow p-2">
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.Tabelio_nr, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Darbuotojas.Tabelio_nr, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(m => m.Darbuotojas.Tabelio_nr, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.Vardas, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Darbuotojas.Vardas, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(m => m.Darbuotojas.Vardas, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.Pavarde, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Darbuotojas.Pavarde, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(m => m.Darbuotojas.Pavarde, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.Telefonas, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Darbuotojas.Telefonas, new { htmlAttributes = new { @class = "form-control" }})
+			@Html.ValidationMessageFor(m => m.Darbuotojas.Telefonas, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.Val_atlyginimas, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Darbuotojas.Val_atlyginimas, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(m => m.Darbuotojas.Val_atlyginimas, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.Atlyginimas, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Darbuotojas.Atlyginimas, new { htmlAttributes = new { @class = "form-control" }})
+			@Html.ValidationMessageFor(m => m.Darbuotojas.Atlyginimas, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.Banko_saskaita, new { @class = "control-label" })
+			@Html.EditorFor(m => m.Darbuotojas.Banko_saskaita, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Darbuotojas.Banko_saskaita, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.FkBiblioteka, new { @class = "control-label" })
+			@Html.DropDownListFor(m => m.Darbuotojas.FkBiblioteka, Model.Lists.Bibliotekos, "--------------", new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Darbuotojas.FkBiblioteka, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.FkPareigos, new { @class = "control-label" })
+			@Html.DropDownListFor(m => m.Darbuotojas.FkPareigos, Model.Lists.Pareigos, "--------------", new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Darbuotojas.FkPareigos, "", new { @class = "text-danger" })
+		</div>
+
+	</fieldset>
+
+	<fieldset class="border rounded shadow p-2">
+		<div class="container-fluid d-flex d-row justify-content-between align-items-center">
+			<span></span>
+			<legend style="width: unset; margin-bottom: 0px;">Papildomos knygos</legend>
+			<button
+				name="add"
+				value="1"
+				formnovaliDateTime @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+				formaction="@Url.Action()#listEnd"
+				class="btn btn-info"
+				style="white-space: nowrap;"
+			><i class="fa-solid fa-plus"></i> Pridėti</button>
+		</div>
+
+		<table class="table table-striped table-hover w-100">
+			<thead>
+			<tr>
+				<th>Tabelio nr.</th>
+				<th>Vardas</th>
+				<th>Pavardė</th>
+				<th>Telefonas</th>
+				<th>Valandinis atlyginimas</th>
+				<th>Atlyginimas</th>
+				<th>Banko sąskaita</th>
+				<th>Biblioteka</th>
+				<th>Pareigos</th>
+				<th style="width: 1px;"></th>
+			</tr>
+			</thead>
+			<tbody>
+			@for( var i = 0; i < Model.NaujasDarbuotojas.Count; i++ ) {
+				<tr>
+					<td>
+						@Html.EditorFor(m => m.NaujasDarbuotojas[i].Tabelio_nr, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujasDarbuotojas[i].Tabelio_nr, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.EditorFor(m => m.NaujasDarbuotojas[i].Vardas, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujasDarbuotojas[i].Vardas, "", new { @class = "text-danger" })
+					</td>
+					
+					<td>
+						@Html.EditorFor(m => m.NaujasDarbuotojas[i].Pavarde, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujasDarbuotojas[i].Pavarde, "", new { @class = "text-danger" })
+					</td>
+					
+					<td>
+						@Html.EditorFor(m => m.NaujasDarbuotojas[i].Telefonas, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujasDarbuotojas[i].Telefonas, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.EditorFor(m => m.NaujasDarbuotojas[i].Val_atlyginimas, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujasDarbuotojas[i].Val_atlyginimas, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.EditorFor(m => m.NaujasDarbuotojas[i].Atlyginimas, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujasDarbuotojas[i].Atlyginimas, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.EditorFor(m => m.NaujasDarbuotojas[i].Banko_saskaita, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujasDarbuotojas[i].Banko_saskaita, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.DropDownListFor(m => m.NaujasDarbuotojas[i].FkBiblioteka, Model.Lists.Bibliotekos, "--------------", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.NaujasDarbuotojas[i].FkBiblioteka, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.DropDownListFor(m => m.NaujasDarbuotojas[i].FkPareigos, Model.Lists.Pareigos, "--------------", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.NaujasDarbuotojas[i].FkPareigos, "", new { @class = "text-danger" })
+					</td>
+
+
+					<td>
+						<button
+							name="remove"
+							value="@Model.NaujasDarbuotojas[i].Tabelio_nr"
+							formnovaliDateTime @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+							formaction="@Url.Action()#listEnd"
+							class="btn btn-danger"
+							style="white-space: nowrap;"><i class="fa-solid fa-trash"></i> Ištrinti</button>
+					</td>
+				</tr>
+			}
+			</tbody>
+		</table>
+
+		@* this is used as a marker to automatically scroll down to the end of items list when returning from button presses *@
+		<span id="listEnd"></span>
+	</fieldset>
+
+	<div class="container-fluid d-flex d-row justify-content-end">
+		<button name="save" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Išsaugoti</button>
+	</div>
+}
+</div>
+
+<div class="main-content-footer container-fluid d-flex d-row justify-content-between align-items-center">
+	<span class="title"></span>
+	<span class="actions">
+		<a href="@Url.Action("Index")" class="link-primary"><i class="fa-solid fa-angles-left"></i> Atgal į sarašą</a>
+	</span>
+</div>

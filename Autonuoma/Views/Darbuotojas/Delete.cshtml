@@ -1,0 +1,78 @@
+﻿@model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.DarbuotojasEditVM
+@{
+	ViewData["title"] = "Darbuotojo šalinimas";
+}
+
+<div class="main-content-header container-fluid d-flex d-row justify-content-between align-items-center">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a href="@Url.Action("Index")" class="link-primary"><i class="fa-solid fa-angles-left"></i> Atgal į sarašą</a>
+	</span>
+</div>
+
+<div class="container-fluid d-flex justify-content-center">
+@using (Html.BeginForm()) 
+{
+	@Html.AntiForgeryToken()
+
+	<fieldset class="border rounded shadow p-2">
+		<legend class="text-center">Ar tikrai norite šalinti šį knygą?</legend>
+
+		<dl>
+			<dt>@Html.DisplayNameFor(m => m.Darbuotojas.Tabelio_nr)</dt>
+			<dd>@Html.DisplayFor(m => m.Darbuotojas.Tabelio_nr)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Darbuotojas.Vardas)</dt>
+			<dd>@Html.DisplayFor(m => m.Darbuotojas.Vardas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Darbuotojas.Pavarde)</dt>
+			<dd>@Html.DisplayFor(m => m.Darbuotojas.Pavarde)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Darbuotojas.Telefonas)</dt>
+			<dd>@Html.DisplayFor(m => m.Darbuotojas.Telefonas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Darbuotojas.Val_atlyginimas)</dt>
+			<dd>@Html.DisplayFor(m => m.Darbuotojas.Val_atlyginimas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Darbuotojas.Atlyginimas)</dt>
+			<dd>@Html.DisplayFor(m => m.Darbuotojas.Atlyginimas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Darbuotojas.Banko_saskaita)</dt>
+			<dd>@Html.DisplayFor(m => m.Darbuotojas.Banko_saskaita)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Darbuotojas.FkBiblioteka)</dt>
+			<dd>@Html.DisplayFor(m => m.Darbuotojas.FkBiblioteka)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Darbuotojas.FkPareigos)</dt>
+			<dd>@Html.DisplayFor(m => m.Darbuotojas.FkPareigos)</dd>
+
+
+		</dl>
+
+		@if( ViewData["deletionNotPermitted"] != null )
+		{
+			<div class="alert alert-warning text-center">
+				<i class="fa-solid fa-circle-exclamation"></i> Šios automobilio esybės trinti negalima, nes 
+				ji turi ryšių į priklausomas esybes.
+			</div>
+		}
+		else
+		{
+			<div class="container-fluid d-flex d-row justify-content-end">
+				<button
+					formaction="@Url.Action("DeleteConfirm", new {id = Model.Darbuotojas.Tabelio_nr})"
+					class="btn btn-danger"
+					style="white-space: nowrap;"
+				><i class="fa-solid fa-trash"></i> Šalinti</button>
+			</div>			
+		}
+	</fieldset>
+}
+</div>
+
+<div class="main-content-footer container-fluid d-flex d-row justify-content-between align-items-center">
+	<span class="title"></span>
+	<span class="actions">
+		<a href="@Url.Action("Index")" class="link-primary"><i class="fa-solid fa-angles-left"></i> Atgal į sarašą</a>
+	</span>
+</div>

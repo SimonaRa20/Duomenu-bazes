@@ -61,6 +61,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
             public IList<SelectListItem> Pareigos { get; set; }
         }
 
+        public IList<DarbuotojasM> NaujasDarbuotojas { get; set; } = new List<DarbuotojasM>();
 
         /// <summary>
         /// Entity view.

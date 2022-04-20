@@ -17,9 +17,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
             var query =
                 $@"SELECT
 					a.tabelio_nr,
-                    CONCAT(a.vardas, ' ', a.pavarde) AS darbuotojas,
+                    a.vardas,a.pavarde,
                     a.telefonas,
-                    m.pavadinimas AS pareigos
+                    b.pavadinimas AS pareigos
 				FROM
 					darbuotojai a
 					LEFT JOIN `pareigos` b ON b.id = a.fk_pareigosid_pareigos
@@ -33,7 +33,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
                 {
                     Tabelio_nr = Convert.ToInt32(item["tabelio_nr"]),
                     Vardas = Convert.ToString(item["vardas"]),
-                    Pavardė = Convert.ToString(item["pavarde"]),
+                    Pavarde = Convert.ToString(item["pavarde"]),
                     Telefonas = Convert.ToString(item["telefonas"]),
                     Pareigos = Convert.ToString(item["pareigos"])
                 });
@@ -71,90 +71,125 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
             return darbuotojasEvm;
         }
 
-        public static void Insert(KnygaEditVM knygaEvm)
+        public static void Insert(DarbuotojasEditVM darbuotojasEvm)
         {
             var query =
-                $@"INSERT INTO `knygos`
+                $@"INSERT INTO `darbuotojai`
 				(
-					`ISBN`,
-					`pavadinimas`,
-					`puslapiu_skaicius`,
-					`leidimo_metai`,
-					`kalba`,
-					`kiekis`,
-					`busena`,
-					`zanras`,
-					`autorius`,
-					`leidykla`
+					`tabelio_nr`,
+					`vardas`,
+					`pavarde`,
+					`telefonas`,
+					`val_atlyginimas`,
+					`atlyginimas`,
+					`banko_saskaita`,
+					`fk_bibliotekaid_biblioteka`,
+					`fk_pareigosid_pareigos`
 				)
 				VALUES (
-					?isbn,
-					?pav,
-					?pusl_sk,
-					?leidimometai,
-					?kalba,
-					?kiek,
-					?bus,
-					?zan,
-					?autor,
-					?leid
+					?tabelio_nr,
+					?vardas,
+					?pavarde,
+					?telefonas,
+					?val_atlyginimas,
+					?atlyginimas,
+					?banko_saskaita,
+					?fk_bibliotekaid_biblioteka,
+					?fk_pareigosid_pareigos
 				)";
 
             Sql.Insert(query, args =>
             {
-                args.Add("?isbn", MySqlDbType.Int32).Value = knygaEvm.Knyga.ISBN;
-                args.Add("?pav", MySqlDbType.VarChar).Value = knygaEvm.Knyga.Pavadinimas;
-                args.Add("?pusl_sk", MySqlDbType.Int32).Value = knygaEvm.Knyga.Puslapiu_skaicius;
-                args.Add("?leidimometai", MySqlDbType.Date).Value = knygaEvm.Knyga.LeidimoMetai?.ToString("yyyy-MM-dd");
-                args.Add("?kalba", MySqlDbType.VarChar).Value = knygaEvm.Knyga.Kalba;
-                args.Add("?kiek", MySqlDbType.Int32).Value = knygaEvm.Knyga.Kiekis;
-                args.Add("?bus", MySqlDbType.Int32).Value = knygaEvm.Knyga.Busena;
-                args.Add("?zan", MySqlDbType.VarChar).Value = knygaEvm.Knyga.FkZanras;
-                args.Add("?autor", MySqlDbType.VarChar).Value = knygaEvm.Knyga.FkAutorius;
-                args.Add("?leid", MySqlDbType.VarChar).Value = knygaEvm.Knyga.FkLeidykla;
+                args.Add("?tabelio_nr", MySqlDbType.Int32).Value = darbuotojasEvm.Darbuotojas.Tabelio_nr;
+                args.Add("?vardas", MySqlDbType.VarChar).Value = darbuotojasEvm.Darbuotojas.Vardas;
+                args.Add("?pavarde", MySqlDbType.VarChar).Value = darbuotojasEvm.Darbuotojas.Pavarde;
+                args.Add("?telefonas", MySqlDbType.VarChar).Value = darbuotojasEvm.Darbuotojas.Telefonas;
+                args.Add("?val_atlyginimas", MySqlDbType.Int32).Value = darbuotojasEvm.Darbuotojas.Val_atlyginimas;
+                args.Add("?atlyginimas", MySqlDbType.VarChar).Value = darbuotojasEvm.Darbuotojas.Atlyginimas;
+                args.Add("?banko_saskaita", MySqlDbType.VarChar).Value = darbuotojasEvm.Darbuotojas.Banko_saskaita;
+                args.Add("?fk_bibliotekaid_biblioteka", MySqlDbType.Int32).Value = darbuotojasEvm.Darbuotojas.FkBiblioteka;
+                args.Add("?fk_pareigosid_pareigos", MySqlDbType.Int32).Value = darbuotojasEvm.Darbuotojas.FkPareigos;
             });
         }
 
-        public static void Update(KnygaEditVM knygaEvm)
+        public static void Insert(int ISBN, DarbuotojasEditVM.DarbuotojasM darbuotojasEvm)
         {
             var query =
-                $@"UPDATE `knyga`
+                $@"INSERT INTO `darbuotojai`
+				(
+					`tabelio_nr`,
+					`vardas`,
+					`pavarde`,
+					`telefonas`,
+					`val_atlyginimas`,
+					`atlyginimas`,
+					`banko_saskaita`,
+					`fk_bibliotekaid_biblioteka`,
+					`fk_pareigosid_pareigos`
+				)
+				VALUES (
+					?tabelio_nr,
+					?vardas,
+					?pavarde,
+					?telefonas,
+					?val_atlyginimas,
+					?atlyginimas,
+					?banko_saskaita,
+					?fk_bibliotekaid_biblioteka,
+					?fk_pareigosid_pareigos
+				)";
+
+            Sql.Insert(query, args =>
+            {
+                args.Add("?tabelio_nr", MySqlDbType.Int32).Value = darbuotojasEvm.Tabelio_nr;
+                args.Add("?vardas", MySqlDbType.VarChar).Value = darbuotojasEvm.Vardas;
+                args.Add("?pavarde", MySqlDbType.VarChar).Value = darbuotojasEvm.Pavarde;
+                args.Add("?telefonas", MySqlDbType.VarChar).Value = darbuotojasEvm.Telefonas;
+                args.Add("?val_atlyginimas", MySqlDbType.Int32).Value = darbuotojasEvm.Val_atlyginimas;
+                args.Add("?atlyginimas", MySqlDbType.Int32).Value = darbuotojasEvm.Atlyginimas;
+                args.Add("?banko_saskaita", MySqlDbType.VarChar).Value = darbuotojasEvm.Banko_saskaita;
+                args.Add("?fk_bibliotekaid_biblioteka", MySqlDbType.Int32).Value = darbuotojasEvm.FkBiblioteka;
+                args.Add("?fk_pareigosid_pareigos", MySqlDbType.Int32).Value = darbuotojasEvm.FkPareigos;
+            });
+        }
+
+        public static void Update(DarbuotojasEditVM darbuotojasEvm)
+        {
+            var query =
+                $@"UPDATE `darbuotojai`
 				SET
-					`ISBN` = ?isbn,
-					`pavadinimas` = ?pav,
-					`puslapiu_skaicius` = ?pusl_sk,
-					`leidimo_metai` = ?leidimometai,
-					`kalba` = ?kalba,
-					`kiekis` = ?kiek,
-					`busena` = ?bus,
-					`zanras` = ?zan,
-					`autorius` = ?autor,
-					`leidykla` = ?leid
+					`tabelio_nr` = ?tabelio_nr,
+					`vardas` = ?vardas,
+					`pavarde` = ?pavarde,
+					`telefonas` = ?telefonas,
+					`val_atlyginimas` = ?val_atlyginimas,
+					`atlyginimas` = ?atlyginimas,
+					`banko_saskaita` = ?banko_saskaita,
+					`fk_bibliotekaid_biblioteka` = ?fk_bibliotekaid_biblioteka,
+					`fk_pareigosid_pareigos` = ?fk_pareigosid_pareigos
 				WHERE
-					ISBN=?isbn";
+					tabelio_nr=?tabelio_nr";
 
             Sql.Update(query, args =>
             {
-                args.Add("?isbn", MySqlDbType.Int32).Value = knygaEvm.Knyga.ISBN;
-                args.Add("?pav", MySqlDbType.VarChar).Value = knygaEvm.Knyga.Pavadinimas;
-                args.Add("?pusl_sk", MySqlDbType.Int32).Value = knygaEvm.Knyga.Puslapiu_skaicius;
-                args.Add("?leidimometai", MySqlDbType.Date).Value = knygaEvm.Knyga.LeidimoMetai;
-                args.Add("?kalba", MySqlDbType.VarChar).Value = knygaEvm.Knyga.Kalba;
-                args.Add("?kiek", MySqlDbType.Int32).Value = knygaEvm.Knyga.Kiekis;
-                args.Add("?bus", MySqlDbType.Int32).Value = knygaEvm.Knyga.Busena;
-                args.Add("?zan", MySqlDbType.VarChar).Value = knygaEvm.Knyga.FkZanras;
-                args.Add("?autor", MySqlDbType.VarChar).Value = knygaEvm.Knyga.FkAutorius;
-                args.Add("?leid", MySqlDbType.VarChar).Value = knygaEvm.Knyga.FkLeidykla;
-
+                args.Add("?tabelio_nr", MySqlDbType.Int32).Value = darbuotojasEvm.Darbuotojas.Tabelio_nr;
+                args.Add("?vardas", MySqlDbType.VarChar).Value = darbuotojasEvm.Darbuotojas.Vardas;
+                args.Add("?pavarde", MySqlDbType.VarChar).Value = darbuotojasEvm.Darbuotojas.Pavarde;
+                args.Add("?telefonas", MySqlDbType.VarChar).Value = darbuotojasEvm.Darbuotojas.Telefonas;
+                args.Add("?val_atlyginimas", MySqlDbType.Int32).Value = darbuotojasEvm.Darbuotojas.Val_atlyginimas;
+                args.Add("?atlyginimas", MySqlDbType.Int32).Value = darbuotojasEvm.Darbuotojas.Atlyginimas;
+                args.Add("?banko_saskaita", MySqlDbType.VarChar).Value = darbuotojasEvm.Darbuotojas.Banko_saskaita;
+                args.Add("?fk_bibliotekaid_biblioteka", MySqlDbType.Int32).Value = darbuotojasEvm.Darbuotojas.FkBiblioteka;
+                args.Add("?fk_pareigosid_pareigos", MySqlDbType.Int32).Value = darbuotojasEvm.Darbuotojas.FkPareigos;
             });
         }
 
         public static void Delete(int id)
         {
-            var query = $@"DELETE FROM `knygos` WHERE isbn=?isbn";
+            var query = $@"DELETE FROM `darbuotojai` WHERE tabelio_nr=?tabelio_nr";
             Sql.Delete(query, args =>
             {
-                args.Add("?isbn", MySqlDbType.Int32).Value = id;
+                args.Add("?tabelio_nr", MySqlDbType.Int32).Value = id;
             });
         }
     }
