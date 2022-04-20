@@ -55,6 +55,8 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
             [Required]
             public int FkLeidykla { get; set; }
 
+
+
         }
 
         /// <summary>
@@ -68,6 +70,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels
             public IList<SelectListItem> Busenos { get; set; }
         }
 
+        public IList<KnygaM> NaujaKnyga { get; set; } = new List<KnygaM>();
 
         /// <summary>
         /// Entity view.

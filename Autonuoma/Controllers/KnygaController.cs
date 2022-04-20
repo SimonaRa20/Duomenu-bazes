@@ -22,10 +22,6 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
             return View(KnygosRepo.List());
         }
 
-        /// <summary>
-        /// This is invoked when creation form is first opened in browser.
-        /// </summary>
-        /// <returns>Creation form view.</returns>
         public ActionResult Create()
         {
             var knygaEvm = new KnygaEditVM();
@@ -35,26 +31,68 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Controllers
         }
 
         /// <summary>
-        /// This is invoked when buttons are pressed in the creation form.
+        /// This is invoked when creation form is first opened in browser.
         /// </summary>
-        /// <param name="autoEvm">Entity model filled with latest data.</param>
-        /// <returns>Returns creation from view or redirects back to Index if save is successfull.</returns>
-        [HttpPost]
-        public ActionResult Create(KnygaEditVM knygaEvm)
-        {
-            //form field validation passed?
-            if (ModelState.IsValid)
-            {
-                KnygosRepo.Insert(knygaEvm);
+        /// <returns>Creation form view.</returns>
 
-                //save success, go back to the entity list
-                return RedirectToAction("Index");
+        [HttpPost]
+        public ActionResult Create(int? save, int? add, int? remove, KnygaEditVM knygaEditVM)
+        {
+            if (add != null)
+            {
+                KnygaEditVM.KnygaM addNew = new KnygaEditVM.KnygaM()
+                {
+                    ISBN = knygaEditVM.NaujaKnyga.Count > 0 ? knygaEditVM.NaujaKnyga.Max(it => it.ISBN) + 1 : 0,
+                    Pavadinimas = null,
+                    Puslapiu_skaicius = 0,
+                    LeidimoMetai = null,
+                    Kalba = null,
+                    Kiekis = 0,
+                    FkZanras = 0,
+                    FkAutorius = 0,
+                    FkLeidykla = 0
+                };
+                knygaEditVM.NaujaKnyga.Add(addNew);
+                ModelState.Clear();
+                PopulateSelections(knygaEditVM);
+                return View(knygaEditVM);
+            }
+            if (remove != null)
+            {
+                knygaEditVM.NaujaKnyga =
+                    knygaEditVM
+                        .NaujaKnyga
+                        .Where(it => Convert.ToInt32(it.ISBN) != remove.Value)
+                        .ToList();
+
+                ModelState.Clear();
+
+                PopulateSelections(knygaEditVM);
+                return View(knygaEditVM);
             }
 
-            //form field validation failed, go back to the form
-            PopulateSelections(knygaEvm);
-            return View(knygaEvm);
+            if (save != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    KnygosRepo.Insert(knygaEditVM);
+
+                    foreach (var upVm in knygaEditVM.NaujaKnyga)
+                        KnygosRepo.Insert(knygaEditVM.Knyga.ISBN, upVm);
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    PopulateSelections(knygaEditVM);
+                    return View(knygaEditVM);
+                }
+            }
+
+            //should not reach here
+            throw new Exception("Should not reach here.");
         }
+
 
         /// <summary>
         /// This is invoked when editing form is first opened in browser.

@@ -92,30 +92,75 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					`fk_leidyklaid_leidykla`
 				)
 				VALUES (
-					?isbn,
-					?pav,
-					?pusl_sk,
-					?leidimometai,
+					?ISBN,
+					?pavadinimas,
+					?puslapiu_skaicius,
+					?leidimo_metai,
 					?kalba,
-					?kiek,
-					?bus,
-					?zan,
-					?autor,
-					?leid
+					?kiekis,
+					?busena,
+					?fk_zanrasid_zanras,
+					?fk_autoriusid_autorius,
+					?fk_leidyklaid_leidykla
 				)";
 
             Sql.Insert(query, args =>
             {
-                args.Add("?isbn", MySqlDbType.Int32).Value = knygaEvm.Knyga.ISBN;
-                args.Add("?pav", MySqlDbType.VarChar).Value = knygaEvm.Knyga.Pavadinimas;
-                args.Add("?pusl_sk", MySqlDbType.Int32).Value = knygaEvm.Knyga.Puslapiu_skaicius;
-                args.Add("?leidimo_metai", MySqlDbType.DateTime).Value = knygaEvm.Knyga.LeidimoMetai?.ToString("yyyy-MM-dd");
+                args.Add("?ISBN", MySqlDbType.Int32).Value = knygaEvm.Knyga.ISBN;
+                args.Add("?pavadinimas", MySqlDbType.VarChar).Value = knygaEvm.Knyga.Pavadinimas;
+                args.Add("?puslapiu_skaicius", MySqlDbType.Int32).Value = knygaEvm.Knyga.Puslapiu_skaicius;
+                args.Add("?leidimo_metai", MySqlDbType.Date).Value = knygaEvm.Knyga.LeidimoMetai?.ToString("yyyy-MM-dd");
                 args.Add("?kalba", MySqlDbType.VarChar).Value = knygaEvm.Knyga.Kalba;
-                args.Add("?kiek", MySqlDbType.Int32).Value = knygaEvm.Knyga.Kiekis;
-                args.Add("?bus", MySqlDbType.Int32).Value = knygaEvm.Knyga.Busena;
-                args.Add("?zan", MySqlDbType.VarChar).Value = knygaEvm.Knyga.FkZanras;
-                args.Add("?autor", MySqlDbType.VarChar).Value = knygaEvm.Knyga.FkAutorius;
-                args.Add("?leid", MySqlDbType.VarChar).Value = knygaEvm.Knyga.FkLeidykla;
+                args.Add("?kiekis", MySqlDbType.Int32).Value = knygaEvm.Knyga.Kiekis;
+                args.Add("?busena", MySqlDbType.Int32).Value = knygaEvm.Knyga.Busena;
+                args.Add("?fk_zanrasid_zanras", MySqlDbType.Int32).Value = knygaEvm.Knyga.FkZanras;
+                args.Add("?fk_autoriusid_autorius", MySqlDbType.Int32).Value = knygaEvm.Knyga.FkAutorius;
+                args.Add("?fk_leidyklaid_leidykla", MySqlDbType.Int32).Value = knygaEvm.Knyga.FkLeidykla;
+
+            });
+        }
+
+        public static void Insert(int ISBN, KnygaEditVM.KnygaM knygaEvm)
+        {
+            var query =
+                $@"INSERT INTO `knygos`
+				(
+					`ISBN`,
+					`pavadinimas`,
+					`puslapiu_skaicius`,
+					`leidimo_metai`,
+					`kalba`,
+					`kiekis`,
+					`busena`,
+					`fk_zanrasid_zanras`,
+					`fk_autoriusid_autorius`,
+					`fk_leidyklaid_leidykla`
+				)
+				VALUES (
+					?ISBN,
+					?pavadinimas,
+					?puslapiu_skaicius,
+					?leidimo_metai,
+					?kalba,
+					?kiekis,
+					?busena,
+					?fk_zanrasid_zanras,
+					?fk_autoriusid_autorius,
+					?fk_leidyklaid_leidykla
+				)";
+
+            Sql.Insert(query, args =>
+            {
+                args.Add("?ISBN", MySqlDbType.Int32).Value = knygaEvm.ISBN;
+                args.Add("?pavadinimas", MySqlDbType.VarChar).Value = knygaEvm.Pavadinimas;
+                args.Add("?puslapiu_skaicius", MySqlDbType.Int32).Value = knygaEvm.Puslapiu_skaicius;
+                args.Add("?leidimo_metai", MySqlDbType.Date).Value = knygaEvm.LeidimoMetai?.ToString("yyyy-MM-dd");
+                args.Add("?kalba", MySqlDbType.VarChar).Value = knygaEvm.Kalba;
+                args.Add("?kiekis", MySqlDbType.Int32).Value = knygaEvm.Kiekis;
+                args.Add("?busena", MySqlDbType.Int32).Value = knygaEvm.Busena;
+                args.Add("?fk_zanrasid_zanras", MySqlDbType.Int32).Value = knygaEvm.FkZanras;
+                args.Add("?fk_autoriusid_autorius", MySqlDbType.Int32).Value = knygaEvm.FkAutorius;
+                args.Add("?fk_leidyklaid_leidykla", MySqlDbType.Int32).Value = knygaEvm.FkLeidykla;
             });
         }
 

@@ -80,6 +80,107 @@
 		</div>
 	</fieldset>
 
+	<fieldset class="border rounded shadow p-2">
+		<div class="container-fluid d-flex d-row justify-content-between align-items-center">
+			<span></span>
+			<legend style="width: unset; margin-bottom: 0px;">Papildomos knygos</legend>
+			<button
+				name="add"
+				value="1"
+				formnovaliDateTime @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+				formaction="@Url.Action()#listEnd"
+				class="btn btn-info"
+				style="white-space: nowrap;"
+			><i class="fa-solid fa-plus"></i> Pridėti</button>
+		</div>
+
+		<table class="table table-striped table-hover w-100">
+			<thead>
+			<tr>
+				<th>ISBN</th>
+				<th>Pavadinimas</th>
+				<th>Puslapių skaičius</th>
+				<th>Leidimo metai</th>
+				<th>Kalba</th>
+				<th>Kiekis</th>
+				<th>Būsena</th>
+				<th>Žanras</th>
+				<th>Aktorius</th>
+				<th>Leidykla</th>
+				<th style="width: 1px;"></th>
+			</tr>
+			</thead>
+			<tbody>
+			@for( var i = 0; i < Model.NaujaKnyga.Count; i++ ) {
+				<tr>
+					<td>
+						@Html.EditorFor(m => m.NaujaKnyga[i].ISBN, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].ISBN, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.EditorFor(m => m.NaujaKnyga[i].Pavadinimas, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].Pavadinimas, "", new { @class = "text-danger" })
+					</td>
+					
+					<td>
+						@Html.EditorFor(m => m.NaujaKnyga[i].Puslapiu_skaicius, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].Puslapiu_skaicius, "", new { @class = "text-danger" })
+					</td>
+					
+					<td>
+						@Html.EditorFor(m => m.NaujaKnyga[i].LeidimoMetai, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].LeidimoMetai, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.EditorFor(m => m.NaujaKnyga[i].Kalba, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].Kalba, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.EditorFor(m => m.NaujaKnyga[i].Kiekis, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].Kiekis, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.DropDownListFor(m => m.NaujaKnyga[i].Busena, Model.Lists.Busenos, "--------------", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].Busena, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.DropDownListFor(m => m.NaujaKnyga[i].FkZanras, Model.Lists.Zanrai, "--------------", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].FkZanras, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.DropDownListFor(m => m.NaujaKnyga[i].FkAutorius, Model.Lists.Autoriai, "--------------", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].FkAutorius, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						@Html.DropDownListFor(m => m.NaujaKnyga[i].FkLeidykla, Model.Lists.Leidyklos, "--------------", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.NaujaKnyga[i].FkLeidykla, "", new { @class = "text-danger" })
+					</td>
+
+					<td>
+						<button
+							name="remove"
+							value="@Model.NaujaKnyga[i].ISBN"
+							formnovaliDateTime @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+							formaction="@Url.Action()#listEnd"
+							class="btn btn-danger"
+							style="white-space: nowrap;"><i class="fa-solid fa-trash"></i> Ištrinti</button>
+					</td>
+				</tr>
+			}
+			</tbody>
+		</table>
+
+		@* this is used as a marker to automatically scroll down to the end of items list when returning from button presses *@
+		<span id="listEnd"></span>
+	</fieldset>
+
 	<div class="container-fluid d-flex d-row justify-content-end">
 		<button name="save" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Išsaugoti</button>
 	</div>
