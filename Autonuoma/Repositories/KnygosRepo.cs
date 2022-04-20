@@ -109,7 +109,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
                 args.Add("?isbn", MySqlDbType.Int32).Value = knygaEvm.Knyga.ISBN;
                 args.Add("?pav", MySqlDbType.VarChar).Value = knygaEvm.Knyga.Pavadinimas;
                 args.Add("?pusl_sk", MySqlDbType.Int32).Value = knygaEvm.Knyga.Puslapiu_skaicius;
-                args.Add("?leidimometai", MySqlDbType.Date).Value = knygaEvm.Knyga.LeidimoMetai?.ToString("yyyy-MM-dd");
+                args.Add("?leidimo_metai", MySqlDbType.DateTime).Value = knygaEvm.Knyga.LeidimoMetai?.ToString("yyyy-MM-dd");
                 args.Add("?kalba", MySqlDbType.VarChar).Value = knygaEvm.Knyga.Kalba;
                 args.Add("?kiek", MySqlDbType.Int32).Value = knygaEvm.Knyga.Kiekis;
                 args.Add("?bus", MySqlDbType.Int32).Value = knygaEvm.Knyga.Busena;
