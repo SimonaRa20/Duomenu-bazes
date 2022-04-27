@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\Autonuoma",
-    "\\Autonuoma\\Controllers",
     "\\Autonuoma\\Models",
     "\\Autonuoma\\Repositories",
     "\\Autonuoma\\ViewModels",
     "\\Autonuoma\\Views",
+    "\\Autonuoma\\Views\\Darbuotojas",
     "\\Autonuoma\\Views\\Knyga",
     "\\Autonuoma\\Views\\Skaitytojas",
     "\\Autonuoma\\Views\\Zanras"
   ],
-  "SelectedNode": "\\Autonuoma\\Repositories\\DarbuotojaiRepo.cs",
+  "SelectedNode": "\\autonuoma.sln",
   "PreviewInSolutionExplorer": false
 }

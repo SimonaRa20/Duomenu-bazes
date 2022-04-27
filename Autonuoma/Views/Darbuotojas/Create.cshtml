@@ -57,7 +57,7 @@
 
 		<div class="form-group">
 			@Html.LabelFor(m => m.Darbuotojas.Banko_saskaita, new { @class = "control-label" })
-			@Html.EditorFor(m => m.Darbuotojas.Banko_saskaita, new { @class = "form-control" })
+			@Html.EditorFor(m => m.Darbuotojas.Banko_saskaita, new { htmlAttributes = new { @class = "form-control" }})
 			@Html.ValidationMessageFor(m => m.Darbuotojas.Banko_saskaita, "", new { @class = "text-danger" })
 		</div>
 
