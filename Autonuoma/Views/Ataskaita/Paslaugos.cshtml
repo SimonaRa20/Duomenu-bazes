@@ -1,0 +1,70 @@
+﻿@model Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.ServicesReport.Report
+@{
+	ViewData["title"] = "Knygų ataskaita";
+}
+
+<div class="main-content-header container-fluid">
+    <span class="title">@ViewData["title"]</span>
+</div>
+
+<div class="container-fluid d-flex justify-content-center">
+    @using (Html.BeginForm())
+{
+    <p><strong>Parengta:</strong> @String.Format("{0:yyyy-MM-dd HH:mm}", DateTime.Now)</p>
+
+    <div class="form-group container-fluid d-flex justify-content-between align-items-center p-0">
+        <div class="form-group container-fluid d-flex justify-content-left align-items-center m-0 p-0">
+            <label>Sutartys nuo:&nbsp;</label>
+            @Html.TextBoxFor(m => m.DateFrom, "{0:yyyy-MM-dd}", new { @class = "date-picker" })
+
+            <span style="width:3ch;"></span>
+
+            <label>Sutartys iki:&nbsp;</label>
+            @Html.TextBoxFor(m => m.DateTo, "{0:yyyy-MM-dd}", new { @class = "date-picker" })
+        </div>
+
+        <button class="btn btn-success"
+                style="white-space: nowrap;">
+            <i class="fa-solid fa-filter"></i> Atrinkti
+        </button>
+    </div>
+
+    <table class="table table-striped table-hover w-100">
+        <thead>
+            <tr style="background-color: lightblue">
+                <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Vardas)</th>
+                <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Pavarde)</th>
+                <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Leidimo_metai)</th>
+                <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Pavadinimas)</th>
+                <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Kiekis)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if( Model.Paslaugos.Count == 0 ) {
+            <tr>
+                <td colspan="4" align="center"><b style="color:red;">Nurodytame laikotarpyje nebuvo užsakyt? paslaug?</b></td>
+            </tr>
+			}
+
+            @for (int i = 0; i < Model.Paslaugos.Count; i++)
+			{
+            <tr>
+                <td>@Model.Paslaugos[i].Vardas</td>
+                <td>@Model.Paslaugos[i].Pavarde</td>
+                <td>@Model.Paslaugos[i].Leidimo_metai</td>
+                <td>@Model.Paslaugos[i].Pavadinimas</td>
+                <td>@Model.Paslaugos[i].Kiekis</td>
+            </tr>
+			}
+
+            <tr style="background-color: lightblue">
+                <td colspan="4" align="center"><b>Suma</b></td>
+                <td>
+                    @Html.DisplayFor(m => Model.VisoUzsakyta)
+                </td>
+               
+            </tr>
+        </tbody>
+    </table>
+}
+</div>

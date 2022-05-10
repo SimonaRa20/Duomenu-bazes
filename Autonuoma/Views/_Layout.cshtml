@@ -82,6 +82,32 @@
 						<li class="nav-item">
 							<a href="@Url.Action("Index", "Knyga")" class="@MarkActive("Knyga") nav-link">Knygos</a>
 						</li>
+					</ul>
+					@* drop-down for report links *@
+					<ul class="navbar-nav justify-content-right mb-2 mb-lg-0">
+						<li class="nav-item dropdown">
+							<a
+								class="@MarkActive("Ataskaita") nav-link dropdown-toggle"
+								href="#"
+								id="navbarReports"
+								role="button"
+								data-bs-toggle="dropdown"
+								aria-expanded="false"
+							>
+								Ataskaitos
+							</a>
+							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarReports">
+								@* report links go here *@
+								<li>
+									<a
+										href="@Url.Action("Paslaugos", "Ataskaita")"
+										class="@MarkActive("Ataskaita", "Paslaugos") dropdown-item"
+									>Knygu ataskaita</a>
+								</li>
+								
+							</ul>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
