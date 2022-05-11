@@ -13,9 +13,12 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
             var query =
                 $@"SELECT
 					a.vardas, a.pavarde, k.leidimo_metai,
-					k.pavadinimas, SUM(k.kiekis) AS kiekis
+					k.pavadinimas, l.pavadinimas AS leidykla, z.pavadinimas AS zanras, SUM(k.kiekis) AS kiekis
 				FROM
-					autoriai a, knygos k
+                    knygos k
+					LEFT JOIN `autoriai` a ON a.id = k.fk_autoriusid_autorius
+                    LEFT JOIN `leidyklos` l ON l.id = k.fk_leidyklaid_leidykla
+                    LEFT JOIN `zanrai` z ON z.id = k.fk_zanrasid_zanras
 				WHERE
 					a.id = k.fk_autoriusid_autorius
 					AND k.leidimo_metai >= IFNULL(?nuo, k.leidimo_metai)
@@ -41,8 +44,10 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
                     Pavarde = Convert.ToString(item["pavarde"]),
                     Leidimo_metai = Convert.ToDateTime(item["leidimo_metai"]),
                     Pavadinimas = Convert.ToString(item["pavadinimas"]),
+                    Leidykla = Convert.ToString(item["leidykla"]),
+                    Zanras = Convert.ToString(item["zanras"]),
                     Kiekis = Convert.ToInt32(item["kiekis"])
-                });
+                }); ;
             }
 
             return result;
@@ -54,9 +59,12 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
             var query =
                 $@"SELECT
 					a.vardas, a.pavarde, k.leidimo_metai,
-					k.pavadinimas, SUM(k.kiekis) AS kiekis
+					k.pavadinimas, l.pavadinimas AS leidykla, z.pavadinimas AS zanras, SUM(k.kiekis) AS kiekis
 				FROM
-					autoriai a, knygos k
+                    knygos k
+					LEFT JOIN `autoriai` a ON a.id = k.fk_autoriusid_autorius
+                    LEFT JOIN `leidyklos` l ON l.id = k.fk_leidyklaid_leidykla
+                    LEFT JOIN `zanrai` z ON z.id = k.fk_zanrasid_zanras
 				WHERE
 					a.id = k.fk_autoriusid_autorius
 					AND k.leidimo_metai >= IFNULL(?nuo, k.leidimo_metai)

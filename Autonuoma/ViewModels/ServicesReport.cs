@@ -17,6 +17,12 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.ServicesReport
         [DisplayName("Pavadinimas")]
         public string Pavadinimas { get; set; }
 
+        [DisplayName("Leidykla")]
+        public string Leidykla { get; set; }
+
+        [DisplayName("Zanras")]
+        public string Zanras { get; set; }
+
         [DisplayName("Kiekis")]
         public int Kiekis { get; set; }
     }
