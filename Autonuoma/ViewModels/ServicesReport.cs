@@ -40,6 +40,9 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.ViewModels.ServicesReport
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? DateTo { get; set; }
 
+        [DisplayName("{0}")]
+        public string IvedamaLeidykla { get; set; }
+
         public List<Knyga> Paslaugos { get; set; }
 
         public int VisoUzsakyta { get; set; }

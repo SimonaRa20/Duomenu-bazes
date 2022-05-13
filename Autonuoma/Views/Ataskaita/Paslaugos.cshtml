@@ -14,13 +14,16 @@
 
     <div class="form-group container-fluid d-flex justify-content-between align-items-center p-0">
         <div class="form-group container-fluid d-flex justify-content-left align-items-center m-0 p-0">
-            <label>Sutartys nuo:&nbsp;</label>
+            <label>Knygos nuo:&nbsp;</label>
             @Html.TextBoxFor(m => m.DateFrom, "{0:yyyy-MM-dd}", new { @class = "date-picker" })
 
             <span style="width:3ch;"></span>
 
-            <label>Sutartys iki:&nbsp;</label>
+            <label>Knygos iki:&nbsp;</label>
             @Html.TextBoxFor(m => m.DateTo, "{0:yyyy-MM-dd}", new { @class = "date-picker" })
+            <label>Leidykla:&nbsp;</label>
+            @Html.TextBoxFor(m => m.IvedamaLeidykla,"{0}", new { @class = "control-label" })
+
         </div>
 
         <button class="btn btn-success"
@@ -32,8 +35,6 @@
     <table class="table table-striped table-hover w-100">
         <thead>
             <tr style="background-color: lightblue">
-                <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Vardas)</th>
-                <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Pavarde)</th>
                 <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Leidimo_metai)</th>
                 <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Pavadinimas)</th>
                 <th>@Html.DisplayNameFor(m => m.Paslaugos[0].Leidykla)</th>
@@ -50,9 +51,12 @@
 
             @for (int i = 0; i < Model.Paslaugos.Count; i++)
 			{
+                if(i == 0 || Model.Paslaugos[i].Vardas != Model.Paslaugos[i-1].Vardas && Model.Paslaugos[i].Pavarde != Model.Paslaugos[i-1].Pavarde ){
+                <tr style="background-color: lightblue">
+                    <td colspan="5" align="center"><b>@Html.DisplayFor(m => Model.Paslaugos[i].Vardas) @Html.DisplayFor(m => Model.Paslaugos[i].Pavarde)</b></td>
+                </tr>
+                }
             <tr>
-                <td>@Model.Paslaugos[i].Vardas</td>
-                <td>@Model.Paslaugos[i].Pavarde</td>
                 <td>@Model.Paslaugos[i].Leidimo_metai</td>
                 <td>@Model.Paslaugos[i].Pavadinimas</td>
                 <td>@Model.Paslaugos[i].Leidykla</td>
@@ -62,7 +66,7 @@
 			}
 
             <tr style="background-color: lightblue">
-                <td colspan="6" align="center"><b>Suma</b></td>
+                <td colspan="4" align="center"><b>Suma</b></td>
                 <td>
                     @Html.DisplayFor(m => Model.VisoUzsakyta)
                 </td>

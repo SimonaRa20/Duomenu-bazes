@@ -6,7 +6,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 {
     public class AtaskaitaRepo
     {
-        public static List<ServicesReport.Knyga> GetServicesOrdered(DateTime? dateFrom, DateTime? dateTo)
+        public static List<ServicesReport.Knyga> GetServicesOrdered(DateTime? dateFrom, DateTime? dateTo, string IvedamaLeidykla)
         {
             var result = new List<ServicesReport.Knyga>();
 
@@ -20,19 +20,20 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
                     LEFT JOIN `leidyklos` l ON l.id = k.fk_leidyklaid_leidykla
                     LEFT JOIN `zanrai` z ON z.id = k.fk_zanrasid_zanras
 				WHERE
-					a.id = k.fk_autoriusid_autorius
-					AND k.leidimo_metai >= IFNULL(?nuo, k.leidimo_metai)
+					k.leidimo_metai >= IFNULL(?nuo, k.leidimo_metai)
 					AND k.leidimo_metai <= IFNULL(?iki, k.leidimo_metai)
+                
 				GROUP BY
-					a.vardas, a.pavarde, k.pavadinimas
+					k.pavadinimas
 				ORDER BY
-					kiekis DESC";
+					 kiekis DESC";
 
             var dt =
                 Sql.Query(query, args =>
                 {
                     args.Add("?nuo", MySqlDbType.DateTime).Value = dateFrom;
                     args.Add("?iki", MySqlDbType.DateTime).Value = dateTo;
+                    args.Add("?ivestaleidykla", MySqlDbType.String).Value = IvedamaLeidykla;
                 });
 
             foreach (DataRow item in dt)
@@ -52,7 +53,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
             return result;
         }
-        public static ServicesReport.Report GetTotalServicesOrdered(DateTime? dateFrom, DateTime? dateTo)
+        public static ServicesReport.Report GetTotalServicesOrdered(DateTime? dateFrom, DateTime? dateTo, string IvedamaLeidykla)
         {
             var result = new ServicesReport.Report();
 
@@ -62,15 +63,16 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 					k.pavadinimas, l.pavadinimas AS leidykla, z.pavadinimas AS zanras, SUM(k.kiekis) AS kiekis
 				FROM
                     knygos k
-					LEFT JOIN `autoriai` a ON a.id = k.fk_autoriusid_autorius
-                    LEFT JOIN `leidyklos` l ON l.id = k.fk_leidyklaid_leidykla
-                    LEFT JOIN `zanrai` z ON z.id = k.fk_zanrasid_zanras
+					RIGHT JOIN `autoriai` a ON a.id = k.fk_autoriusid_autorius
+                    RIGHT JOIN `leidyklos` l ON l.id = k.fk_leidyklaid_leidykla
+                    RIGHT JOIN `zanrai` z ON z.id = k.fk_zanrasid_zanras
 				WHERE
-					a.id = k.fk_autoriusid_autorius
-					AND k.leidimo_metai >= IFNULL(?nuo, k.leidimo_metai)
+					
+					k.leidimo_metai >= IFNULL(?nuo, k.leidimo_metai)
 					AND k.leidimo_metai <= IFNULL(?iki, k.leidimo_metai)
+                  
 				GROUP BY
-					a.vardas, a.pavarde, k.pavadinimas
+					k.pavadinimas
 				ORDER BY
 					kiekis DESC";
 
@@ -79,6 +81,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
                 {
                     args.Add("?nuo", MySqlDbType.DateTime).Value = dateFrom;
                     args.Add("?iki", MySqlDbType.DateTime).Value = dateTo;
+                    args.Add("?ivestaleidykla", MySqlDbType.String).Value = IvedamaLeidykla;
                 });
 
             foreach (DataRow item in dt)
