@@ -26,7 +26,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				GROUP BY
 					k.pavadinimas
 				ORDER BY
-					 kiekis DESC";
+					 a.vardas, a.pavarde, kiekis DESC";
 
             var dt =
                 Sql.Query(query, args =>
@@ -74,7 +74,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				GROUP BY
 					k.pavadinimas
 				ORDER BY
-					kiekis DESC";
+					a.vardas, a.pavarde, kiekis DESC";
 
             var dt =
                 Sql.Query(query, args =>
