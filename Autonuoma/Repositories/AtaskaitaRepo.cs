@@ -6,7 +6,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 {
     public class AtaskaitaRepo
     {
-        public static List<ServicesReport.Knyga> GetServicesOrdered(DateTime? dateFrom, DateTime? dateTo, string IvedamaLeidykla)
+        public static List<ServicesReport.Knyga> GetServicesOrdered(DateTime? dateFrom, DateTime? dateTo, string? IvedamaLeidykla)
         {
             var result = new List<ServicesReport.Knyga>();
 
@@ -22,7 +22,7 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 				WHERE
 					k.leidimo_metai >= IFNULL(?nuo, k.leidimo_metai)
 					AND k.leidimo_metai <= IFNULL(?iki, k.leidimo_metai)
-                
+					AND l.pavadinimas = IFNULL(?ivestaleidykla, l.pavadinimas)
 				GROUP BY
 					k.pavadinimas
 				ORDER BY
@@ -53,24 +53,28 @@ namespace Org.Ktu.Isk.P175B602.Autonuoma.Repositories
 
             return result;
         }
-        public static ServicesReport.Report GetTotalServicesOrdered(DateTime? dateFrom, DateTime? dateTo, string IvedamaLeidykla)
+        public static ServicesReport.Report GetTotalServicesOrdered(DateTime? dateFrom, DateTime? dateTo, string? IvedamaLeidykla)
         {
             var result = new ServicesReport.Report();
 
             var query =
                 $@"SELECT
-					a.vardas, a.pavarde, k.leidimo_metai,
-					k.pavadinimas, l.pavadinimas AS leidykla, z.pavadinimas AS zanras, SUM(k.kiekis) AS kiekis
+					a.vardas, 
+                    a.pavarde, 
+                    k.leidimo_metai,
+					k.pavadinimas, 
+                    l.pavadinimas AS leidykla, 
+                    z.pavadinimas AS zanras, 
+                    SUM(k.kiekis) AS kiekis
 				FROM
                     knygos k
 					RIGHT JOIN `autoriai` a ON a.id = k.fk_autoriusid_autorius
                     RIGHT JOIN `leidyklos` l ON l.id = k.fk_leidyklaid_leidykla
                     RIGHT JOIN `zanrai` z ON z.id = k.fk_zanrasid_zanras
 				WHERE
-					
 					k.leidimo_metai >= IFNULL(?nuo, k.leidimo_metai)
 					AND k.leidimo_metai <= IFNULL(?iki, k.leidimo_metai)
-                  
+					AND l.pavadinimas = IFNULL(?ivestaleidykla, l.pavadinimas)
 				GROUP BY
 					k.pavadinimas
 				ORDER BY

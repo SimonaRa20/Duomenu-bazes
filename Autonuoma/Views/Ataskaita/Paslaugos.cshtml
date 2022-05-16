@@ -22,7 +22,9 @@
             <label>Knygos iki:&nbsp;</label>
             @Html.TextBoxFor(m => m.DateTo, "{0:yyyy-MM-dd}", new { @class = "date-picker" })
             <label>Leidykla:&nbsp;</label>
-            @Html.TextBoxFor(m => m.IvedamaLeidykla,"{0}", new { @class = "control-label" })
+            <div class="form-group">
+			@Html.TextBoxFor(m => m.IvedamaLeidykla, "{0}", new { @class = "text-picker" })
+		    </div>
 
         </div>
 
